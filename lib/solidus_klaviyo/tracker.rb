@@ -9,7 +9,7 @@ module SolidusKlaviyo
     end
 
     def track(event)
-      KlaviyoAPI::Events.create_event({
+      klaviyo::Events.create_event(data: {
         type: "event",
         attributes: {
           profile: event.customer_properties,
@@ -19,6 +19,12 @@ module SolidusKlaviyo
           properties: event.properties
         }
       })
+    end
+
+    private
+
+    def klaviyo
+      @klaviyo ||= KlaviyoAPI
     end
   end
 end
