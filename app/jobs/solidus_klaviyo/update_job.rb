@@ -8,6 +8,8 @@ module SolidusKlaviyo
       SolidusKlaviyo.update_now(list_id, email, properties)
     rescue SolidusKlaviyo::RateLimitedError => e
       self.class.set(wait: e.retry_after).perform_later(list_id, email, properties)
+    rescue ActiveJob::DeserializationError => e
+      self.destroy!
     end
   end
 end
